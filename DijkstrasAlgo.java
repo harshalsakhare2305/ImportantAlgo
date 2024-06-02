@@ -1,6 +1,6 @@
  public static int[] DijkstrasAlgo(ArrayList<Edge>[] graph,int src,int V){
             PriorityQueue<Pair> pq =new PriorityQueue<>();
-            boolean[] vis =new boolean[V];
+          
             int[] distance =new int[V];
             for(int i=0;i<V;i++){
                 if(i!=src){
@@ -13,8 +13,7 @@
 
             while (!pq.isEmpty()) {
                 Pair curr =pq.remove();
-                if(vis[curr.node]==false){
-                    vis[curr.node]=true;
+              
                     for(int i=0;i<graph[curr.node].size();i++){
                        Edge e = graph[curr.node].get(i);
                       int u=e.src;
@@ -27,7 +26,7 @@
                     }
 
 
-                }
+                
             }
    return distance;
  }
