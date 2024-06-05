@@ -28,11 +28,11 @@ class DisjointSetRank {
             int ulp_v=findparent(v);
             if(ulp_u==ulp_v) return;
             if(rank[ulp_u] < rank[ulp_v]){
-                parent[u]=ulp_v;
+                parent[ulp_u]=ulp_v;
             }else if(rank[ulp_u] > rank[ulp_v]){
-                parent[v]=ulp_u;
+                parent[ulp_v]=ulp_u;
             }else{
-                parent[v]=ulp_u;
+                parent[ulp_v]=ulp_u;
                 rank[ulp_u]++;
             }
     }
@@ -110,10 +110,10 @@ class DisjointSetRank {
             int ulp_v=findparent(v);
             if(ulp_u==ulp_v) return;
             if(size[ulp_u] < size[ulp_v]){
-                parent[u]=ulp_v;
+                parent[ulp_u]=ulp_v;
                 size[ulp_v]+=size[ulp_u];
             }else{
-                parent[v]=ulp_u;
+                parent[ulp_v]=ulp_u;
                 size[ulp_u]+=size[ulp_v];
             }
     }
