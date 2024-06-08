@@ -1,4 +1,4 @@
- public static int[] DijkstrasAlgo(ArrayList<Edge>[] graph,int src,int V){
+ public static int[] DijkstrasAlgo(ArrayList<Edge>[] graph,int src,int V,boolean[]vis){
             PriorityQueue<Pair> pq =new PriorityQueue<>();
           
             int[] distance =new int[V];
@@ -13,6 +13,9 @@
 
             while (!pq.isEmpty()) {
                 Pair curr =pq.remove();
+               if(vis[curr.node]) continue;
+                   vis[curr.node]
+                 
               
                     for(int i=0;i<graph[curr.node].size();i++){
                        Edge e = graph[curr.node].get(i);
@@ -37,7 +40,7 @@
 
 
 
-  public int[] DijkstrasAlgo(ArrayList<int[]>[] graph,int src,int V){
+  public int[] DijkstrasAlgo(ArrayList<int[]>[] graph,int src,int V,boolean[] vis){
             PriorityQueue<int[]> pq =new PriorityQueue<>(((a,b)->a[0]-b[0]));
           
             int[] distance =new int[V+1];
@@ -53,9 +56,12 @@
             while (!pq.isEmpty()) {
                 int[] curr =pq.remove();
                 int node =curr[1];
+             if(vis[node])continue;
+                  vis[node]=true;
               
                     for(int i=0;i<graph[node].size();i++){
                        int[] e = graph[node].get(i);
+                     
                       
                       int v =e[0];
                       int wt =e[1];
