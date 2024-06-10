@@ -17,9 +17,11 @@ public class SegTree {
     static class SegmentTree{
          static int[] seg;
          static Pair[] seg1;
+         static int[] lazy;
         public SegmentTree(int n){
             seg =new int[4*n+1];
             seg1=new Pair[4*n+1];
+            lazy=new int[4*n+1];
             for(int i=0;i<seg1.length;i++){
                 seg1[i]=new Pair(0, 0, 0);
             }
@@ -112,6 +114,65 @@ public class SegTree {
             seg[idx]=seg[2*idx+1]+seg[2*idx+2];
         }
 
+        public static void updateslazy(int idx,int low,int high,int l,int r,int val,int[] arr){
+
+            //update if lzy of idx is equal to 0 
+             if(lazy[idx]!=0){
+                seg[idx]+=(high-low+1)*lazy[idx];
+                if(low!=high){
+                    lazy[2*idx+1]+=lazy[idx];
+                    lazy[2*idx+2]+=lazy[idx];
+                }
+
+                lazy[idx]=0;
+             }
+
+            if(high<l || r<low ) return ;
+
+            if(low>=l && high<=r ){
+                seg[idx]+=(high-low+1)*val;
+                if(low!=high){
+                    lazy[2*idx+1]+=lazy[idx];
+                    lazy[2*idx+2]+=lazy[idx];
+                }
+
+                return ;
+            }   
+
+            int mid =(low+high)/2;
+            updateslazy(2*idx+1, low, mid, l, r, val, arr);
+            updateslazy(2*idx+2, mid+1, high, l, r, val, arr);
+
+          seg[idx]=seg[2*idx+1]+seg[2*idx+2];
+
+             
+        }
+
+        public static int QueryLazy(int idx,int low,int high,int l,int r,int[] arr){
+              //update if lzy of idx is equal to 0 
+              if(lazy[idx]!=0){
+                seg[idx]+=(high-low+1)*lazy[idx];
+                if(low!=high){
+                    lazy[2*idx+1]+=lazy[idx];
+                    lazy[2*idx+2]+=lazy[idx];
+                }
+
+                lazy[idx]=0;
+             }
+
+             if(high<l || r<low ) return 0;
+
+             if(low>=l && high<=r ){
+                return seg[idx];
+            }   
+            int mid =(low+high)/2;
+            int left =QueryLazy(2*idx+1, low, mid, l, r, arr);
+            int right =QueryLazy(2*idx+2, mid+1, high, l, r, arr);
+
+            return left+right;
+
+        }
+
         public static Pair Merge(Pair p1,Pair p2){
             int full =Math.min(p1.open,p2.close)+p1.full+p2.full;
             int op =p1.open+p2.open-Math.min(p1.open,p2.close);
@@ -186,26 +247,32 @@ public class SegTree {
 
     public static void main(String[] args) {
         Scanner sc =new Scanner(System.in);
-        // int n =sc.nextInt();
-        // int[] arr1 =new int[n];
-         String  str =sc.nextLine();
-         StringBuilder sb =new StringBuilder(str);
-         int n=sb.length();
+        int n =sc.nextInt();
+        int[] arr1 =new int[n];
+        //  String  str =sc.nextLine();
+        //  StringBuilder sb =new StringBuilder(str);
+        //  int n=sb.length();
          
-        // for(int i=0;i<n;i++){
-        //     // arr1[i]=sc.nextInt();
-        //     s=
-        // }
+        for(int i=0;i<n;i++){
+            arr1[i]=sc.nextInt();
+        }
 
 
         SegmentTree s =new SegmentTree(n);
+        s.BuildSum(0, 0, n-1, arr1);
+        System.out.println(s.QueryLazy(0, 0, n-1, 1, 4, arr1));
+         s.updateslazy(0, 0, n-1, 1, 4, 5, arr1);
+         System.out.println(s.QueryLazy(0, 0, n-1, 1, 4, arr1));
+         System.out.println(s.QueryLazy(0, 0, n-1, 2, 5, arr1));
+
+
         // s.BuildSum(0, 0, n-1, arr1);
         // System.out.println(s.QuerySum(0, 0, n-1, 1, 3, arr1));
         // s.updateSum(0, 0, n-1, 2,6, arr1);
         // System.out.println(s.QuerySum(0, 0, n-1, 1, 3, arr1));
 
-        s.BuildPar(0, 0, n-1, sb);
-        System.out.println(s.QueryPar(0, 0, n-1, 0, n-1, sb).full*2);
+        // s.BuildPar(0, 0, n-1, sb);
+        // System.out.println(s.QueryPar(0, 0, n-1, 0, n-1, sb).full*2);
 
     }
 }
