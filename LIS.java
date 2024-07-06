@@ -36,19 +36,19 @@ class Solution {
     }
 
 
-//   //Using Tabulation
-//     //  int[] dp =new int[n];
-//     //  Arrays.fill(dp,1);
-//     //  int maxi =Integer.MIN_VALUE;
-//     //     for(int i=0;i<n;i++){
-//     //         for(int prev=0;prev<i;prev++){
-//     //             if(nums[i]>nums[prev]){
-//     //                 dp[i]=Math.max(dp[i],dp[prev]+1);
-//     //             }
-//     //         }
+   //Using Tabulation
+      int[] dp =new int[n];
+      Arrays.fill(dp,1);
+      int maxi =Integer.MIN_VALUE;
+        for(int i=0;i<n;i++){
+             for(int prev=0;prev<i;prev++){
+                if(nums[i]>nums[prev]){
+                    dp[i]=Math.max(dp[i],dp[prev]+1);
+                 }
+            }
 
-//     //         maxi=Math.max(maxi,dp[i]);
-//     //     }
-//     //      return maxi;
-//     // }
-// }
+             maxi=Math.max(maxi,dp[i]);
+         }
+          return maxi;
+     }
+}
